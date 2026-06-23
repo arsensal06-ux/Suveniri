@@ -1,26 +1,113 @@
-<script type="module">
-    // Импортируем нужные функции
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-    
-    setTimeout(() => {
-        if (!window.db) {
-            console.error('Firebase не инициализирован');
-            return;
-        }
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - КубаньСувенир</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>КубаньСувенир</h1>
+            <p>Панель администратора</p>
+        </div>
+        <nav>
+            <a href="index.html">Вернуться на сайт</a>
+            <a href="#" id="logoutBtn" style="display:none;">Выйти</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="loginSection">
+            <h2>Вход в админ-панель</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Пароль" required>
+                <button type="submit">Войти</button>
+            </form>
+        </div>
+
+        <div id="adminSection" style="display: none;">
+            <div class="admin-grid">
+                <div class="admin-form">
+                    <h2>Добавить товар</h2>
+                    <form id="addProductForm">
+                        <label>Название:</label>
+                        <input type="text" id="productName" required>
+                        
+                        <label>Категория:</label>
+                        <select id="productCategory" required>
+                            <option value="Пепельницы">Пепельницы</option>
+                            <option value="Тарелки">Тарелки</option>
+                            <option value="Магниты">Магниты</option>
+                        </select>
+                        
+                        <label>Цена (руб.):</label>
+                        <input type="number" id="productPrice" required>
+                        
+                        <label>Описание:</label>
+                        <textarea id="productDescription"></textarea>
+                        
+                        <label>URL изображения:</label>
+                        <input type="text" id="productImage" placeholder="https://...">
+                        
+                        <button type="submit">Добавить товар</button>
+                    </form>
+                </div>
+
+                <div class="admin-products">
+                    <h2>Управление товарами</h2>
+                    <div id="adminProductsList">
+                        <p>Загрузка...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-orders" style="margin-top: 40px;">
+                <h2>Заказы</h2>
+                <div id="ordersList">
+                    <p>Загрузка заказов...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Загружаем Firebase напрямую, без firebase-init.js -->
+    <script type="module">
+        // Импортируем Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         
-        const auth = getAuth();
-        const db = getFirestore();
+        // Конфигурация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNakAqvswLoNykV_ZAJiy2YgxPB9jriMk",
+            authDomain: "kubansuvenir.firebaseapp.com",
+            projectId: "kubansuvenir",
+            storageBucket: "kubansuvenir.firebasestorage.app",
+            messagingSenderId: "606434546277",
+            appId: "1:606434546277:web:d14fff0ed7d42705b56c8c"
+        };
+        
+        // Инициализация Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        console.log('Firebase инициализирован в админке');
         
         // Проверка авторизации
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                console.log('Пользователь авторизован:', user.email);
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('adminSection').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'inline';
                 loadAdminProducts();
                 loadOrders();
             } else {
+                console.log('Пользователь не авторизован');
                 document.getElementById('loginSection').style.display = 'block';
                 document.getElementById('adminSection').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'none';
@@ -28,29 +115,55 @@
         });
         
         // Вход
-        document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
+            console.log('Попытка входа:', email);
+            
             try {
-                await signInWithEmailAndPassword(auth, email, password);
-                console.log('Вход выполнен успешно!');
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log('Вход выполнен успешно!', userCredential.user.email);
             } catch (error) {
-                console.error('Ошибка входа:', error);
-                alert('Ошибка входа: ' + error.message);
+                console.error('Ошибка входа:', error.code, error.message);
+                
+                // Показываем понятное сообщение
+                let message = 'Ошибка входа. ';
+                switch(error.code) {
+                    case 'auth/invalid-email':
+                        message += 'Неверный формат email';
+                        break;
+                    case 'auth/user-not-found':
+                        message += 'Пользователь не найден. Проверьте email или создайте пользователя в Firebase Console';
+                        break;
+                    case 'auth/wrong-password':
+                        message += 'Неверный пароль';
+                        break;
+                    case 'auth/invalid-credential':
+                        message += 'Неверный email или пароль';
+                        break;
+                    default:
+                        message += error.message;
+                }
+                alert(message);
             }
         });
         
         // Выход
-        document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
+        document.getElementById('logoutBtn').addEventListener('click', async (e) => {
             e.preventDefault();
-            await signOut(auth);
+            try {
+                await signOut(auth);
+                console.log('Выход выполнен');
+            } catch (error) {
+                console.error('Ошибка выхода:', error);
+            }
         });
         
         // Добавление товара
-        document.getElementById('addProductForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const product = {
@@ -62,20 +175,24 @@
                 createdAt: new Date().toISOString()
             };
             
+            console.log('Добавление товара:', product);
+            
             try {
-                await addDoc(collection(db, 'products'), product);
+                const docRef = await addDoc(collection(db, 'products'), product);
+                console.log('Товар добавлен с ID:', docRef.id);
                 alert('Товар добавлен!');
                 document.getElementById('addProductForm').reset();
                 loadAdminProducts();
             } catch (error) {
-                console.error('Ошибка добавления:', error);
-                alert('Ошибка: ' + error.message);
+                console.error('Ошибка добавления товара:', error);
+                alert('Ошибка добавления: ' + error.message);
             }
         });
         
-        // Загрузка товаров в админке
+        // Загрузка товаров
         async function loadAdminProducts() {
             const container = document.getElementById('adminProductsList');
+            container.innerHTML = '<p>Загрузка товаров...</p>';
             
             try {
                 const snapshot = await getDocs(collection(db, 'products'));
@@ -84,44 +201,48 @@
                     products.push({ id: doc.id, ...doc.data() });
                 });
                 
+                console.log('Загружено товаров:', products.length);
+                
                 if (products.length === 0) {
-                    container.innerHTML = '<p>Нет товаров</p>';
+                    container.innerHTML = '<p>Товаров пока нет. Добавьте первый товар.</p>';
                     return;
                 }
                 
                 container.innerHTML = products.map(p => `
-                    <div class="admin-product-item">
+                    <div class="admin-product-item" style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #ddd;">
                         <div>
                             <strong>${p.name}</strong> - ${p.category} - ${p.price} руб.
                         </div>
                         <div>
-                            <button onclick="deleteProduct('${p.id}')">Удалить</button>
+                            <button onclick="deleteProduct('${p.id}')" style="background:red; color:white; border:none; padding:5px 10px; cursor:pointer;">Удалить</button>
                         </div>
                     </div>
                 `).join('');
             } catch (error) {
-                console.error('Ошибка загрузки:', error);
-                container.innerHTML = '<p>Ошибка загрузки</p>';
+                console.error('Ошибка загрузки товаров:', error);
+                container.innerHTML = '<p style="color:red;">Ошибка загрузки товаров: ' + error.message + '</p>';
             }
         }
         
         // Удаление товара
         window.deleteProduct = async function(productId) {
-            if (!confirm('Удалить товар?')) return;
+            if (!confirm('Точно удалить этот товар?')) return;
             
             try {
                 await deleteDoc(doc(db, 'products', productId));
-                alert('Товар удален');
+                console.log('Товар удален:', productId);
+                alert('Товар удален!');
                 loadAdminProducts();
             } catch (error) {
                 console.error('Ошибка удаления:', error);
-                alert('Ошибка удаления');
+                alert('Ошибка удаления: ' + error.message);
             }
         };
         
         // Загрузка заказов
         async function loadOrders() {
             const container = document.getElementById('ordersList');
+            container.innerHTML = '<p>Загрузка заказов...</p>';
             
             try {
                 const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
@@ -131,33 +252,38 @@
                     orders.push({ id: doc.id, ...doc.data() });
                 });
                 
+                console.log('Загружено заказов:', orders.length);
+                
                 if (orders.length === 0) {
                     container.innerHTML = '<p>Заказов пока нет</p>';
                     return;
                 }
                 
                 container.innerHTML = orders.map(order => `
-                    <div class="order-card">
-                        <div class="order-header">
-                            <strong>Заказ от ${new Date(order.createdAt).toLocaleString()}</strong>
-                            <span class="status">${order.status}</span>
+                    <div class="order-card" style="background:white; padding:15px; margin:10px 0; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                            <strong>Заказ от ${new Date(order.createdAt).toLocaleString('ru-RU')}</strong>
+                            <span style="background:#ffd700; padding:3px 8px; border-radius:4px;">${order.status || 'новый'}</span>
                         </div>
                         <p><strong>Клиент:</strong> ${order.customerName}</p>
                         <p><strong>Телефон:</strong> ${order.customerPhone}</p>
                         <p><strong>Email:</strong> ${order.customerEmail || 'Не указан'}</p>
                         <p><strong>Сумма:</strong> ${order.total} руб.</p>
-                        <div class="order-items">
+                        <div style="margin-top:10px; padding-top:10px; border-top:1px solid #ddd;">
+                            <strong>Товары:</strong>
                             ${order.items.map(item => `
-                                <div>${item.name} × ${item.quantity} = ${item.price * item.quantity} руб.</div>
+                                <div>• ${item.name} × ${item.quantity} = ${item.price * item.quantity} руб.</div>
                             `).join('')}
                         </div>
                     </div>
                 `).join('');
             } catch (error) {
                 console.error('Ошибка загрузки заказов:', error);
-                container.innerHTML = '<p>Ошибка загрузки заказов</p>';
+                container.innerHTML = '<p style="color:red;">Ошибка загрузки заказов: ' + error.message + '</p>';
             }
         }
         
-    }, 1000);
-</script>
+        console.log('Скрипт админки загружен и готов к работе');
+    </script>
+</body>
+</html>
