@@ -165,7 +165,7 @@
       width: 100%; padding: 0.7rem; background: var(--green-soft); color: white;
       border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 0.5rem;
     }
-    .cart-item { display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
+    .cart-item { display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid var(--border); align-items: center; }
     .remove-item { background: none; border: none; cursor: pointer; color: #9ca3af; }
     .total { display: flex; justify-content: space-between; font-weight: 600; margin: 1rem 0; }
     .owner-page { display: none; padding: 2rem 0; }
@@ -189,6 +189,67 @@
     .client-table { width: 100%; background: white; border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow); }
     .client-row { display: grid; grid-template-columns: 2fr 2fr 1fr; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
     .delete-btn { background: #fee2e2; border: 1px solid #f87171; padding: 0.3rem 0.8rem; border-radius: 8px; cursor: pointer; }
+    
+    /* Стили для заказов */
+    .orders-list { margin-top: 1rem; }
+    .order-card {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .order-date {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+    .order-status {
+      background: #86efac;
+      color: #166534;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .order-items {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.2rem 0;
+    }
+    .order-total {
+      margin-top: 0.5rem;
+      font-weight: 600;
+      text-align: right;
+    }
+    .no-orders {
+      text-align: center;
+      color: var(--text-light);
+      padding: 2rem;
+    }
+    .my-orders-btn {
+      background: var(--violet-light);
+      border: 1px solid var(--violet);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+    .my-orders-btn:hover {
+      background: var(--violet);
+    }
   </style>
 </head>
 <body>
@@ -257,6 +318,7 @@
     <div class="owner-tabs">
       <button class="owner-tab-btn active" data-owner-tab="products">Товары</button>
       <button class="owner-tab-btn" data-owner-tab="add">Добавить товар</button>
+      <button class="owner-tab-btn" data-owner-tab="orders">Заказы</button>
       <button class="owner-tab-btn" data-owner-tab="clients">База клиентов</button>
       <button class="owner-tab-btn" data-owner-tab="about">О компании</button>
     </div>
@@ -269,6 +331,10 @@
       <div class="form-group"><label>Цена</label><input type="number" id="owner-new-price"></div>
       <div class="form-group"><label>Описание</label><input id="owner-new-desc"></div>
       <button class="submit-btn" id="owner-add-btn">Добавить товар</button>
+    </div>
+    <div id="owner-orders-tab" style="display:none;">
+      <h3>Все заказы</h3>
+      <div class="orders-list" id="all-orders-list"></div>
     </div>
     <div id="owner-clients-tab" style="display:none;">
       <div class="client-table" id="clients-container"></div>
@@ -283,12 +349,18 @@
 </div>
 
 <div class="overlay" id="overlay"></div>
+
+<!-- Панель корзины -->
 <div class="panel" id="cart-panel">
   <div class="panel-header"><span>Корзина</span><button class="close-panel" id="close-cart">&times;</button></div>
   <div id="cart-items" style="flex:1;"><div style="color:var(--text-light);text-align:center;margin-top:3rem;">Пусто</div></div>
   <div class="total"><span>Итого</span><span id="cart-total">0 ₽</span></div>
   <button class="submit-btn" id="checkout-btn">Оформить</button>
+  <button class="my-orders-btn" id="my-orders-btn"><i class="fas fa-list"></i> Мои заказы</button>
+  <div id="my-orders-list" style="display:none; margin-top:1rem;"></div>
 </div>
+
+<!-- Панель авторизации -->
 <div class="panel" id="auth-panel">
   <div class="panel-header"><span>Вход / Регистрация</span><button class="close-panel" id="close-auth">&times;</button></div>
   <div class="tabs">
@@ -311,7 +383,7 @@
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, setDoc, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
   
   const firebaseConfig = {
@@ -344,7 +416,7 @@
   
   let currentUser = null;
   let products = [];
-  let cart = JSON.parse(localStorage.getItem('kuban_cart')) || [];
+  let cart = [];
   let aboutData = {
     title: "Сувениры с душой <span class='highlight'>с 2004 года</span>",
     desc: "<strong>КубаньСувенир</strong> — производство в Краснодарском крае.",
@@ -360,6 +432,30 @@
   const userDisplay = document.getElementById('user-display');
   const userMenuBtn = document.getElementById('user-menu-btn');
   const logoutBtn = document.getElementById('logout-btn');
+  
+  // Загрузка корзины из localStorage (только если пользователь авторизован)
+  function loadCart() {
+    if (currentUser) {
+      const savedCart = localStorage.getItem('kuban_cart_' + currentUser.uid);
+      cart = savedCart ? JSON.parse(savedCart) : [];
+    } else {
+      cart = [];
+    }
+  }
+  
+  function saveCart() {
+    if (currentUser) {
+      localStorage.setItem('kuban_cart_' + currentUser.uid, JSON.stringify(cart));
+    }
+  }
+  
+  function clearCart() {
+    cart = [];
+    if (currentUser) {
+      localStorage.removeItem('kuban_cart_' + currentUser.uid);
+    }
+    updateCart();
+  }
   
   async function loadProducts() {
     try {
@@ -410,8 +506,6 @@
       emoji.style.display = 'block';
     }
   }
-  
-  function saveCart() { localStorage.setItem('kuban_cart', JSON.stringify(cart)); }
   
   function updateUI() {
     if (currentUser) {
@@ -467,7 +561,7 @@
   }
   
   function openPanel(p) { document.querySelectorAll('.panel').forEach(x => x.classList.remove('open')); p.classList.add('open'); overlay.classList.add('show'); }
-  function closeAll() { document.querySelectorAll('.panel').forEach(x => x.classList.remove('open')); overlay.classList.remove('show'); }
+  function closeAll() { document.querySelectorAll('.panel').forEach(x => x.classList.remove('open')); overlay.classList.remove('show'); document.getElementById('my-orders-list').style.display = 'none'; }
   
   document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', function() {
     document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
@@ -477,21 +571,27 @@
   document.getElementById('cart-toggle').addEventListener('click', () => openPanel(cartPanel));
   document.getElementById('close-cart').addEventListener('click', closeAll);
   
+  // Оформление заказа
   document.getElementById('checkout-btn').addEventListener('click', async () => {
     if (!cart.length) alert('Корзина пуста');
     else if (!currentUser) alert('Войдите в систему');
     else {
       try {
-        await addDoc(collection(db, 'orders'), {
+        const orderData = {
           items: cart,
           customerName: currentUser.displayName || currentUser.email,
           customerEmail: currentUser.email,
+          customerId: currentUser.uid,
           total: cart.reduce((s, i) => s + (i.price || 0), 0),
           status: 'новый',
           createdAt: new Date().toISOString()
-        });
+        };
+        
+        await addDoc(collection(db, 'orders'), orderData);
         alert('Заказ оформлен! Мы свяжемся с вами.');
-        cart = []; saveCart(); updateCart(); closeAll();
+        clearCart();
+        updateCart();
+        closeAll();
       } catch (error) {
         console.error('Ошибка оформления заказа:', error);
         alert('Ошибка оформления заказа');
@@ -499,13 +599,77 @@
     }
   });
   
+  // Кнопка "Мои заказы" в корзине
+  document.getElementById('my-orders-btn').addEventListener('click', async () => {
+    if (!currentUser) {
+      alert('Войдите в систему');
+      return;
+    }
+    
+    const myOrdersDiv = document.getElementById('my-orders-list');
+    
+    if (myOrdersDiv.style.display === 'block') {
+      myOrdersDiv.style.display = 'none';
+      return;
+    }
+    
+    try {
+      const q = query(
+        collection(db, 'orders'), 
+        where('customerId', '==', currentUser.uid),
+        orderBy('createdAt', 'desc')
+      );
+      const snapshot = await getDocs(q);
+      const orders = [];
+      snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+      
+      if (orders.length === 0) {
+        myOrdersDiv.innerHTML = '<div class="no-orders">У вас пока нет заказов</div>';
+      } else {
+        myOrdersDiv.innerHTML = orders.map(order => `
+          <div class="order-card">
+            <div class="order-header">
+              <div>
+                <strong>Заказ #${order.id.slice(-6)}</strong>
+                <div class="order-date">${new Date(order.createdAt).toLocaleString('ru-RU')}</div>
+              </div>
+              <span class="order-status">${order.status}</span>
+            </div>
+            <div class="order-items">
+              ${order.items.map(item => `
+                <div class="order-item">
+                  <span>${item.name}</span>
+                  <span>${item.price} ₽</span>
+                </div>
+              `).join('')}
+            </div>
+            <div class="order-total">Итого: ${order.total} ₽</div>
+          </div>
+        `).join('');
+      }
+      
+      myOrdersDiv.style.display = 'block';
+    } catch (error) {
+      console.error('Ошибка загрузки заказов:', error);
+    }
+  });
+  
+  // Вход/выход
   userMenuBtn.addEventListener('click', () => {
     if (currentUser && currentUser.email === 'arsensal06@gmail.com') {
       mainSite.style.display = 'none'; ownerPage.classList.add('active'); renderOwnerProducts();
     } else if (!currentUser) openPanel(authPanel);
   });
   
-  logoutBtn.addEventListener('click', async () => { await signOut(auth); currentUser = null; updateUI(); closeAll(); });
+  logoutBtn.addEventListener('click', async () => {
+    clearCart();
+    await signOut(auth);
+    currentUser = null;
+    updateUI();
+    updateCart();
+    closeAll();
+  });
+  
   document.getElementById('back-to-site').addEventListener('click', () => { ownerPage.classList.remove('active'); mainSite.style.display = 'block'; loadProducts(); applyAboutData(); });
   document.getElementById('close-auth').addEventListener('click', closeAll);
   overlay.addEventListener('click', closeAll);
@@ -530,7 +694,10 @@
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       currentUser = userCredential.user;
-      updateUI(); closeAll();
+      loadCart();
+      updateUI();
+      updateCart();
+      closeAll();
       console.log('✅ Вход:', currentUser.email);
     } catch (error) {
       console.error('Ошибка входа:', error);
@@ -551,7 +718,10 @@
       });
       currentUser = userCredential.user;
       currentUser.displayName = name;
-      updateUI(); closeAll();
+      loadCart();
+      updateUI();
+      updateCart();
+      closeAll();
       console.log('✅ Регистрация:', email);
     } catch (error) {
       console.error('Ошибка регистрации:', error);
@@ -562,8 +732,21 @@
     }
   });
   
-  onAuthStateChanged(auth, (user) => { if (user) { currentUser = user; updateUI(); } });
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUser = user;
+      loadCart();
+      updateUI();
+      updateCart();
+    } else {
+      currentUser = null;
+      cart = [];
+      updateUI();
+      updateCart();
+    }
+  });
   
+  // Админка
   async function renderOwnerProducts() {
     const grid = document.getElementById('owner-products-grid');
     await loadProducts();
@@ -601,12 +784,50 @@
     } catch(e) { console.error(e); }
   }
   
+  async function renderAllOrders() {
+    const div = document.getElementById('all-orders-list');
+    try {
+      const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+      const snapshot = await getDocs(q);
+      const orders = [];
+      snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+      
+      if (orders.length === 0) {
+        div.innerHTML = '<p style="text-align:center;padding:2rem;">Заказов пока нет</p>';
+        return;
+      }
+      
+      div.innerHTML = orders.map(order => `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <strong>${order.customerName}</strong>
+              <div class="order-date">${new Date(order.createdAt).toLocaleString('ru-RU')}</div>
+              <div style="font-size:0.85rem;">📧 ${order.customerEmail}</div>
+            </div>
+            <span class="order-status">${order.status}</span>
+          </div>
+          <div class="order-items">
+            ${order.items.map(item => `
+              <div class="order-item">
+                <span>${item.name}</span>
+                <span>${item.price} ₽</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="order-total">Итого: ${order.total} ₽</div>
+        </div>
+      `).join('');
+    } catch(e) { console.error(e); }
+  }
+  
   document.querySelectorAll('.owner-tab-btn').forEach(b => b.addEventListener('click', function() {
     document.querySelectorAll('.owner-tab-btn').forEach(x => x.classList.remove('active'));
     this.classList.add('active');
-    ['products','add','clients','about'].forEach(t => document.getElementById('owner-'+t+'-tab').style.display = 'none');
+    ['products','add','orders','clients','about'].forEach(t => document.getElementById('owner-'+t+'-tab').style.display = 'none');
     document.getElementById('owner-'+this.dataset.ownerTab+'-tab').style.display = 'block';
     if (this.dataset.ownerTab === 'products') renderOwnerProducts();
+    if (this.dataset.ownerTab === 'orders') renderAllOrders();
     if (this.dataset.ownerTab === 'clients') renderClients();
     if (this.dataset.ownerTab === 'about') {
       document.getElementById('about-edit-title').value = aboutData.title;
