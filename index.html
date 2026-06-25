@@ -297,35 +297,40 @@
     <div class="footer"><span>© КубаньСувенир</span><a id="privacy-link">Политика конфиденциальности</a></div>
   </div>
 </div>
+
 <div id="privacy-page" class="privacy-page">
-  <div class="container"><div class="privacy-content"><h2>Политика конфиденциальности</h2><p><strong>Дата:</strong> 25 июня 2026</p><h3>1. Какие данные собираем</h3><p>ФИО, телефон, email, пароль — для обработки заказов.</p><h3>2. Где хранятся</h3><p>В облачной базе Firebase (Google Cloud) по защищённому протоколу HTTPS.</p><h3>3. Для чего используются</h3><p>Оформление заказов, история покупок, связь с вами.</p><h3>4. Передача третьим лицам</h3><p>Не передаём.</p><h3>5. Контакты</h3><p><a href="mailto:arsensal06@gmail.com">arsensal06@gmail.com</a> | <a href="tel:+79667494488">+7 (966) 749-44-88</a></p><button class="submit-btn" id="back-from-privacy" style="margin-top:2rem;">← Вернуться</button></div></div>
+  <div class="container"><div class="privacy-content"><h2>Политика конфиденциальности</h2><p><strong>Дата:</strong> 25 июня 2026</p><h3>1. Какие данные собираем</h3><p>ФИО, телефон, email, пароль — для обработки заказов.</p><h3>2. Где хранятся</h3><p>В облачной базе Firebase (Google Cloud) по защищённому протоколу HTTPS.</p><h3>3. Для чего используются</h3><p>Оформление заказов, история покупок, связь с вами.</p><h3>4. Передача третьим лицам</h3><p>Не передаём.</p><h3>5. Контакты</h3><p><a href="mailto:arsensal06@gmail.com">arsensal06@gmail.com</a> | <a href="tel:+79667494488">+7 (966) 749-44-88</a></p><button class="submit-btn" id="back-from-privacy">← Вернуться на сайт</button></div></div>
 </div>
+
 <div id="owner-page" class="owner-page">
   <div class="container">
-    <div class="owner-header"><h2><i class="fas fa-crown"></i> Панель управления</h2><button class="back-btn" id="back-to-site">← Вернуться на сайт</button></div>
+    <div class="owner-header"><h2><i class="fas fa-crown"></i> Панель управления</h2><button class="back-btn" id="back-to-site"><i class="fas fa-arrow-left"></i> Вернуться на сайт</button></div>
     <div class="owner-tabs">
       <button class="owner-tab-btn active" data-owner-tab="products">Товары</button>
-      <button class="owner-tab-btn" data-owner-tab="add">Добавить</button>
+      <button class="owner-tab-btn" data-owner-tab="add">Добавить товар</button>
       <button class="owner-tab-btn" data-owner-tab="orders">Заказы</button>
-      <button class="owner-tab-btn" data-owner-tab="clients">Клиенты</button>
+      <button class="owner-tab-btn" data-owner-tab="clients">База клиентов</button>
       <button class="owner-tab-btn" data-owner-tab="about">О компании</button>
     </div>
     <div id="owner-products-tab"><div class="owner-grid" id="owner-products-grid"></div></div>
-    <div id="owner-add-tab" style="display:none;max-width:500px;"><div class="form-group"><label>Название</label><input id="owner-new-name"></div><div class="form-group"><label>Категория</label><select id="owner-new-category"><option value="ashtray">Пепельница</option><option value="plate">Тарелка</option><option value="magnet">Магнит</option></select></div><div class="form-group"><label>Цена</label><input type="number" id="owner-new-price"></div><div class="form-group"><label>Описание</label><input id="owner-new-desc"></div><button class="submit-btn" id="owner-add-btn">Добавить</button></div>
+    <div id="owner-add-tab" style="display:none;max-width:500px;"><div class="form-group"><label>Название</label><input id="owner-new-name"></div><div class="form-group"><label>Категория</label><select id="owner-new-category"><option value="ashtray">Пепельница</option><option value="plate">Тарелка</option><option value="magnet">Магнит</option></select></div><div class="form-group"><label>Цена</label><input type="number" id="owner-new-price"></div><div class="form-group"><label>Описание</label><input id="owner-new-desc"></div><button class="submit-btn" id="owner-add-btn">Добавить товар</button></div>
     <div id="owner-orders-tab" style="display:none;"><h3>Все заказы</h3><div class="orders-list" id="all-orders-list"></div></div>
     <div id="owner-clients-tab" style="display:none;"><div class="client-table" id="clients-container"></div></div>
-    <div id="owner-about-tab" style="display:none;max-width:600px;"><div class="form-group"><label>Заголовок</label><input id="about-edit-title"></div><div class="form-group"><label>Описание</label><input id="about-edit-desc"></div><div class="form-group"><label>Фото</label><input type="file" accept="image/*" id="about-photo-input"></div><button class="submit-btn" id="save-about-btn">Сохранить</button></div>
+    <div id="owner-about-tab" style="display:none;max-width:600px;"><div class="form-group"><label>Заголовок</label><input id="about-edit-title"></div><div class="form-group"><label>Описание</label><input id="about-edit-desc"></div><div class="form-group"><label>Фото блока</label><input type="file" accept="image/*" id="about-photo-input"></div><button class="submit-btn" id="save-about-btn">Сохранить изменения</button></div>
   </div>
 </div>
+
 <div class="overlay" id="overlay"></div>
+
 <div class="panel" id="cart-panel">
   <div class="panel-header"><span>Корзина</span><button class="close-panel" id="close-cart">&times;</button></div>
-  <div id="cart-items" style="flex:1;"></div>
+  <div id="cart-items" style="flex:1;"><div style="color:var(--text-light);text-align:center;margin-top:3rem;">Пусто</div></div>
   <div class="total"><span>Итого</span><span id="cart-total">0 ₽</span></div>
   <button class="submit-btn" id="checkout-btn">Оформить</button>
-  <button class="my-orders-btn" id="my-orders-btn">📋 Мои заказы</button>
+  <button class="my-orders-btn" id="my-orders-btn"><i class="fas fa-list"></i> Мои заказы</button>
   <div id="my-orders-list" style="display:none;margin-top:1rem;"></div>
 </div>
+
 <div class="panel" id="auth-panel">
   <div class="panel-header"><span>Вход / Регистрация</span><button class="close-panel" id="close-auth">&times;</button></div>
   <div class="tabs"><button class="tab-btn active" id="tab-login">Вход</button><button class="tab-btn" id="tab-register">Регистрация</button></div>
@@ -351,7 +356,7 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  console.log('🔥 Firebase + корзина в облаке');
+  console.log('🔥 Firebase + полная корзина в облаке');
 
   const defaultProducts = [
     { id: 1, name: "Пепельница «Якорь»", category: "ashtray", price: 480, opt: "от 380 ₽", desc: "Массив дуба", photo: "" },
@@ -370,7 +375,11 @@
   let products = [];
   let cart = [];
   let cartUnsubscribe = null;
-  let aboutData = { title: "Сувениры с душой <span class='highlight'>с 2004 года</span>", desc: "<strong>КубаньСувенир</strong> — производство в Краснодарском крае.", photo: "" };
+  let aboutData = {
+    title: "Сувениры с душой <span class='highlight'>с 2004 года</span>",
+    desc: "<strong>КубаньСувенир</strong> — производство в Краснодарском крае.",
+    photo: ""
+  };
 
   const mainSite = document.getElementById('main-site');
   const privacyPage = document.getElementById('privacy-page');
@@ -379,13 +388,38 @@
   const cartPanel = document.getElementById('cart-panel');
   const authPanel = document.getElementById('auth-panel');
   const overlay = document.getElementById('overlay');
+  const userDisplay = document.getElementById('user-display');
+  const userMenuBtn = document.getElementById('user-menu-btn');
+  const logoutBtn = document.getElementById('logout-btn');
 
-  function hideAll() { mainSite.style.display='none'; privacyPage.classList.remove('active'); ownerPage.classList.remove('active'); }
-  function showMain() { hideAll(); mainSite.style.display='block'; loadProducts(); loadAboutData(); window.scrollTo(0,0); }
-  function showPrivacy() { hideAll(); privacyPage.classList.add('active'); window.scrollTo(0,0); }
-  function showOwner() { hideAll(); ownerPage.classList.add('active'); renderOwnerProducts(); window.scrollTo(0,0); }
+  function hideAllPages() {
+    mainSite.style.display = 'none';
+    privacyPage.classList.remove('active');
+    ownerPage.classList.remove('active');
+  }
 
-  // === КОРЗИНА В FIREBASE ===
+  function showMainSite() {
+    hideAllPages();
+    mainSite.style.display = 'block';
+    loadProducts();
+    loadAboutData();
+    window.scrollTo(0, 0);
+  }
+
+  function showPrivacyPage() {
+    hideAllPages();
+    privacyPage.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function showOwnerPage() {
+    hideAllPages();
+    ownerPage.classList.add('active');
+    renderOwnerProducts();
+    window.scrollTo(0, 0);
+  }
+
+  // Корзина в Firebase
   function listenCart() {
     if (cartUnsubscribe) cartUnsubscribe();
     if (!currentUser) { cart = []; updateCart(); return; }
@@ -421,176 +455,309 @@
     updateCart();
   }
 
-  // === ТОВАРЫ ===
   async function loadProducts() {
     try {
-      const snap = await getDocs(collection(db, 'products'));
-      if (snap.empty) {
-        for (const p of defaultProducts) await addDoc(collection(db, 'products'), p);
-        const s2 = await getDocs(collection(db, 'products'));
-        products = []; s2.forEach(d => products.push({ firebaseId: d.id, ...d.data() }));
+      const snapshot = await getDocs(collection(db, 'products'));
+      if (snapshot.empty) {
+        for (const product of defaultProducts) await addDoc(collection(db, 'products'), product);
+        const newSnapshot = await getDocs(collection(db, 'products'));
+        products = [];
+        newSnapshot.forEach(doc => products.push({ firebaseId: doc.id, ...doc.data() }));
       } else {
-        products = []; snap.forEach(d => products.push({ firebaseId: d.id, ...d.data() }));
+        products = [];
+        snapshot.forEach(doc => products.push({ firebaseId: doc.id, ...doc.data() }));
       }
       renderProducts();
-    } catch(e) { console.error(e); }
+    } catch (error) { console.error('Ошибка загрузки товаров:', error); }
   }
 
   async function loadAboutData() {
     try {
-      const snap = await getDocs(collection(db, 'settings'));
-      let f = false; snap.forEach(d => { if(d.id==='about'){ aboutData=d.data(); f=true; } });
-      if(!f) await setDoc(doc(db,'settings','about'), aboutData);
-      applyAbout();
-    } catch(e) { console.error(e); }
+      const snapshot = await getDocs(collection(db, 'settings'));
+      let found = false;
+      snapshot.forEach(d => { if (d.id === 'about') { aboutData = d.data(); found = true; } });
+      if (!found) await setDoc(doc(db, 'settings', 'about'), aboutData);
+      applyAboutData();
+    } catch (error) { console.error('Ошибка загрузки настроек:', error); }
   }
 
-  function applyAbout() {
+  function applyAboutData() {
     document.getElementById('about-title').innerHTML = aboutData.title;
     document.getElementById('about-desc').innerHTML = aboutData.desc;
-    const img = document.getElementById('about-photo'), em = document.getElementById('about-emoji');
-    if(aboutData.photo){ img.src=aboutData.photo; img.style.display='block'; em.style.display='none'; }
-    else { img.style.display='none'; em.style.display='block'; }
+    const img = document.getElementById('about-photo');
+    const emoji = document.getElementById('about-emoji');
+    if (aboutData.photo) { img.src = aboutData.photo; img.style.display = 'block'; emoji.style.display = 'none'; }
+    else { img.style.display = 'none'; emoji.style.display = 'block'; }
   }
 
   function updateUI() {
-    const d = document.getElementById('user-display'), b = document.getElementById('user-menu-btn'), l = document.getElementById('logout-btn');
-    if(currentUser) {
-      d.textContent = currentUser.displayName || currentUser.email;
-      b.innerHTML = currentUser.email==='arsensal06@gmail.com' ? '<i class="fas fa-crown"></i> '+(currentUser.displayName||'Владелец') : '<i class="fas fa-user"></i> '+(currentUser.displayName||currentUser.email);
-      l.classList.add('visible');
-    } else { d.textContent='Войти'; b.innerHTML='<i class="fas fa-user"></i> Войти'; l.classList.remove('visible'); }
+    if (currentUser) {
+      userDisplay.textContent = currentUser.displayName || currentUser.email;
+      userMenuBtn.innerHTML = currentUser.email === 'arsensal06@gmail.com' ? '<i class="fas fa-crown"></i> ' + (currentUser.displayName || 'Владелец') : '<i class="fas fa-user"></i> ' + (currentUser.displayName || currentUser.email);
+      logoutBtn.classList.add('visible');
+    } else {
+      userDisplay.textContent = 'Войти';
+      userMenuBtn.innerHTML = '<i class="fas fa-user"></i> Войти';
+      logoutBtn.classList.remove('visible');
+    }
     document.getElementById('cart-count').textContent = cart.length;
   }
 
-  function renderProducts(cat='all') {
-    const f = cat==='all' ? products : products.filter(p=>p.category===cat);
-    container.innerHTML = f.map(p=>`
+  function renderProducts(cat = 'all') {
+    const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+    container.innerHTML = filtered.map(p => `
       <div class="product-card">
-        <div class="product-img">${p.photo?`<img src="${p.photo}" alt="">`:'<span>📦</span>'}</div>
+        <div class="product-img">${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : '<span>📦</span>'}</div>
         <div class="product-title">${p.name}</div><div class="product-meta">${p.desc}</div>
-        <div class="price-row"><div><span class="price">${p.price} ₽</span><span class="price-opt">${p.opt||'от '+Math.round(p.price*0.8)+' ₽'}</span></div>
-        <button class="add-to-cart" data-id="${p.id||p.firebaseId}"><i class="fas fa-cart-plus"></i></button></div>
+        <div class="price-row"><div><span class="price">${p.price} ₽</span><span class="price-opt">${p.opt || 'от ' + Math.round(p.price*0.8) + ' ₽'}</span></div>
+        <button class="add-to-cart" data-id="${p.id || p.firebaseId}"><i class="fas fa-cart-plus"></i></button></div>
       </div>`).join('');
-    document.querySelectorAll('.add-to-cart').forEach(b=>b.addEventListener('click',()=>{
-      if(!currentUser){ alert('Сначала войдите!'); openPanel(authPanel); return; }
-      const pid=b.dataset.id, pr=products.find(x=>(x.id&&x.id==pid)||x.firebaseId===pid);
-      if(pr) addToCart(pr);
+    document.querySelectorAll('.add-to-cart').forEach(b => b.addEventListener('click', () => {
+      if (!currentUser) { alert('Сначала войдите!'); openPanel(authPanel); return; }
+      const pid = b.dataset.id;
+      const p = products.find(x => (x.id && x.id == pid) || x.firebaseId === pid);
+      if (p) addToCart(p);
     }));
   }
 
   function updateCart() {
     const div = document.getElementById('cart-items');
-    if(!cart.length) div.innerHTML='<div style="color:var(--text-light);text-align:center;margin-top:3rem;">Пусто</div>';
-    else div.innerHTML = cart.map((item,i)=>`<div class="cart-item"><div><strong>${item.name}</strong><br><small>${item.price} ₽</small></div><button class="remove-item" data-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
-    document.querySelectorAll('.remove-item').forEach(b=>b.addEventListener('click',()=>removeFromCart(parseInt(b.dataset.index))));
-    document.getElementById('cart-total').textContent = cart.reduce((s,i)=>s+(i.price||0),0).toLocaleString()+' ₽';
+    if (cart.length === 0) div.innerHTML = '<div style="color:var(--text-light);text-align:center;margin-top:3rem;">Пусто</div>';
+    else div.innerHTML = cart.map((item, i) => `<div class="cart-item"><div><strong>${item.name}</strong><br><small>${item.price} ₽</small></div><button class="remove-item" data-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
+    document.querySelectorAll('.remove-item').forEach(b => b.addEventListener('click', () => removeFromCart(parseInt(b.dataset.index))));
+    document.getElementById('cart-total').textContent = cart.reduce((s, i) => s + (i.price || 0), 0).toLocaleString() + ' ₽';
     document.getElementById('cart-count').textContent = cart.length;
   }
 
-  function openPanel(p) { document.querySelectorAll('.panel').forEach(x=>x.classList.remove('open')); p.classList.add('open'); overlay.classList.add('show'); }
-  function closeAll() { document.querySelectorAll('.panel').forEach(x=>x.classList.remove('open')); overlay.classList.remove('show'); document.getElementById('my-orders-list').style.display='none'; }
+  function openPanel(p) { document.querySelectorAll('.panel').forEach(x => x.classList.remove('open')); p.classList.add('open'); overlay.classList.add('show'); }
+  function closeAll() { document.querySelectorAll('.panel').forEach(x => x.classList.remove('open')); overlay.classList.remove('show'); document.getElementById('my-orders-list').style.display = 'none'; }
 
-  document.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',function(){
-    document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active')); this.classList.add('active'); renderProducts(this.dataset.category);
+  document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active'); renderProducts(this.dataset.category);
   }));
 
-  document.getElementById('cart-toggle').addEventListener('click',()=>openPanel(cartPanel));
-  document.getElementById('close-cart').addEventListener('click',closeAll);
+  document.getElementById('cart-toggle').addEventListener('click', () => openPanel(cartPanel));
+  document.getElementById('close-cart').addEventListener('click', closeAll);
 
-  document.getElementById('checkout-btn').addEventListener('click',async()=>{
-    if(!cart.length) alert('Корзина пуста');
-    else if(!currentUser) alert('Войдите');
+  document.getElementById('checkout-btn').addEventListener('click', async () => {
+    if (!cart.length) alert('Корзина пуста');
+    else if (!currentUser) alert('Войдите в систему');
     else {
       try {
-        await addDoc(collection(db,'orders'),{ items:[...cart], customerName:currentUser.displayName||currentUser.email, customerEmail:currentUser.email, customerId:currentUser.uid, total:cart.reduce((s,i)=>s+(i.price||0),0), status:'новый', createdAt:new Date().toISOString() });
-        alert('Заказ оформлен!'); clearCart(); closeAll();
-      } catch(e) { console.error(e); }
+        const orderData = {
+          items: [...cart],
+          customerName: currentUser.displayName || currentUser.email,
+          customerEmail: currentUser.email,
+          customerId: currentUser.uid,
+          total: cart.reduce((s, i) => s + (i.price || 0), 0),
+          status: 'новый',
+          createdAt: new Date().toISOString()
+        };
+        await addDoc(collection(db, 'orders'), orderData);
+        alert('Заказ оформлен! Мы свяжемся с вами.');
+        clearCart();
+        updateCart();
+        closeAll();
+      } catch (error) { console.error('Ошибка оформления заказа:', error); alert('Ошибка оформления заказа'); }
     }
   });
 
-  document.getElementById('my-orders-btn').addEventListener('click',async()=>{
-    if(!currentUser){ alert('Войдите'); return; }
-    const div=document.getElementById('my-orders-list');
-    if(div.style.display==='block'){ div.style.display='none'; return; }
+  document.getElementById('my-orders-btn').addEventListener('click', async () => {
+    if (!currentUser) { alert('Войдите в систему'); return; }
+    const myOrdersDiv = document.getElementById('my-orders-list');
+    if (myOrdersDiv.style.display === 'block') { myOrdersDiv.style.display = 'none'; return; }
     try {
-      const q=query(collection(db,'orders'),where('customerId','==',currentUser.uid),orderBy('createdAt','desc'));
-      const snap=await getDocs(q); const orders=[]; snap.forEach(d=>orders.push({id:d.id,...d.data()}));
-      div.innerHTML = orders.length ? orders.map(o=>`<div class="order-card"><div class="order-header"><div><strong>Заказ #${o.id.slice(-6)}</strong><div class="order-date">${new Date(o.createdAt).toLocaleString('ru-RU')}</div></div><span class="order-status">${o.status}</span></div><div class="order-items">${o.items.map(i=>`<div class="order-item"><span>${i.name}</span><span>${i.price}₽</span></div>`).join('')}</div><div class="order-total">Итого: ${o.total}₽</div></div>`).join('') : '<div class="no-orders">Нет заказов</div>';
-      div.style.display='block';
-    } catch(e) { console.error(e); }
+      const q = query(collection(db, 'orders'), where('customerId', '==', currentUser.uid), orderBy('createdAt', 'desc'));
+      const snapshot = await getDocs(q);
+      const orders = [];
+      snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+      myOrdersDiv.innerHTML = orders.length === 0 ? '<div class="no-orders">У вас пока нет заказов</div>' : orders.map(order => `
+        <div class="order-card">
+          <div class="order-header"><div><strong>Заказ #${order.id.slice(-6)}</strong><div class="order-date">${new Date(order.createdAt).toLocaleString('ru-RU')}</div></div><span class="order-status">${order.status}</span></div>
+          <div class="order-items">${order.items.map(item => `<div class="order-item"><span>${item.name}</span><span>${item.price} ₽</span></div>`).join('')}</div>
+          <div class="order-total">Итого: ${order.total} ₽</div>
+        </div>`).join('');
+      myOrdersDiv.style.display = 'block';
+    } catch (error) { console.error('Ошибка загрузки заказов:', error); }
   });
 
-  document.getElementById('user-menu-btn').addEventListener('click',()=>{
-    if(currentUser && currentUser.email==='arsensal06@gmail.com') showOwner();
-    else if(!currentUser) openPanel(authPanel);
+  // Кнопка пользователя — НЕ путаем с кнопкой выхода
+  userMenuBtn.addEventListener('click', () => {
+    if (currentUser && currentUser.email === 'arsensal06@gmail.com') {
+      showOwnerPage();
+    } else if (!currentUser) {
+      openPanel(authPanel);
+    }
+    // Если обычный пользователь — ничего не делаем, кнопка просто показывает имя
   });
-  document.getElementById('logout-btn').addEventListener('click',async()=>{ clearCart(); await signOut(auth); currentUser=null; updateUI(); closeAll(); });
-  document.getElementById('back-to-site').addEventListener('click',showMain);
-  document.getElementById('close-auth').addEventListener('click',closeAll);
-  overlay.addEventListener('click',closeAll);
 
-  document.getElementById('tab-login').addEventListener('click',()=>{ document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('login-form').style.display='block'; document.getElementById('register-form').style.display='none'; });
-  document.getElementById('tab-register').addEventListener('click',()=>{ document.getElementById('tab-register').classList.add('active'); document.getElementById('tab-login').classList.remove('active'); document.getElementById('login-form').style.display='none'; document.getElementById('register-form').style.display='block'; });
+  // Кнопка ВЫЙТИ — отдельная
+  logoutBtn.addEventListener('click', async () => {
+    clearCart();
+    await signOut(auth);
+    currentUser = null;
+    updateUI();
+    updateCart();
+    closeAll();
+  });
 
-  document.getElementById('login-submit').addEventListener('click',async()=>{
+  document.getElementById('back-to-site').addEventListener('click', showMainSite);
+  document.getElementById('close-auth').addEventListener('click', closeAll);
+  overlay.addEventListener('click', closeAll);
+
+  document.getElementById('tab-login').addEventListener('click', () => {
+    document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-register').classList.remove('active');
+    document.getElementById('login-form').style.display = 'block'; document.getElementById('register-form').style.display = 'none';
+  });
+  document.getElementById('tab-register').addEventListener('click', () => {
+    document.getElementById('tab-register').classList.add('active'); document.getElementById('tab-login').classList.remove('active');
+    document.getElementById('login-form').style.display = 'none'; document.getElementById('register-form').style.display = 'block';
+  });
+
+  document.getElementById('login-submit').addEventListener('click', async () => {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value.trim();
     try {
-      const uc = await signInWithEmailAndPassword(auth, document.getElementById('login-email').value.trim(), document.getElementById('login-password').value.trim());
-      currentUser=uc.user; listenCart(); updateUI(); closeAll();
-    } catch(e) { alert('Ошибка: '+(e.code==='auth/invalid-credential'?'Неверные данные':e.message)); }
-  });
-  document.getElementById('register-submit').addEventListener('click',async()=>{
-    const n=document.getElementById('reg-name').value.trim(), ph=document.getElementById('reg-phone').value.trim(), e=document.getElementById('reg-email').value.trim(), p=document.getElementById('reg-password').value.trim();
-    if(!n||!e||!p){ alert('Заполните поля'); return; }
-    try {
-      const uc=await createUserWithEmailAndPassword(auth,e,p);
-      await setDoc(doc(db,'users',uc.user.uid),{name:n,phone:ph,email:e,role:'user',createdAt:new Date().toISOString()});
-      currentUser=uc.user; currentUser.displayName=n; listenCart(); updateUI(); closeAll();
-    } catch(er) { alert(er.code==='auth/email-already-in-use'?'Email занят':er.code==='auth/weak-password'?'Пароль от 6 символов':'Ошибка'); }
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      currentUser = userCredential.user;
+      listenCart();
+      updateUI();
+      updateCart();
+      closeAll();
+      console.log('✅ Вход:', currentUser.email);
+    } catch (error) { alert('Ошибка входа: ' + (error.code === 'auth/invalid-credential' ? 'Неверный email или пароль' : error.message)); }
   });
 
-  onAuthStateChanged(auth,(u)=>{ if(u){ currentUser=u; listenCart(); updateUI(); } else { currentUser=null; if(cartUnsubscribe) cartUnsubscribe(); cart=[]; updateUI(); updateCart(); } });
+  document.getElementById('register-submit').addEventListener('click', async () => {
+    const name = document.getElementById('reg-name').value.trim();
+    const phone = document.getElementById('reg-phone').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value.trim();
+    if (!name || !email || !password) { alert('Заполните ФИО, почту и пароль'); return; }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, 'users', userCredential.user.uid), { name, phone, email, role: 'user', createdAt: new Date().toISOString() });
+      currentUser = userCredential.user;
+      currentUser.displayName = name;
+      listenCart();
+      updateUI();
+      updateCart();
+      closeAll();
+      console.log('✅ Регистрация:', email);
+    } catch (error) {
+      let msg = 'Ошибка регистрации';
+      if (error.code === 'auth/email-already-in-use') msg = 'Этот email уже используется';
+      else if (error.code === 'auth/weak-password') msg = 'Пароль должен быть минимум 6 символов';
+      alert(msg);
+    }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUser = user;
+      listenCart();
+      updateUI();
+      updateCart();
+    } else {
+      currentUser = null;
+      if (cartUnsubscribe) cartUnsubscribe();
+      cart = [];
+      updateUI();
+      updateCart();
+    }
+  });
 
   // Админка
   async function renderOwnerProducts() {
+    const grid = document.getElementById('owner-products-grid');
     await loadProducts();
-    const g=document.getElementById('owner-products-grid');
-    g.innerHTML = products.map(p=>`<div class="owner-card">${p.photo?`<img src="${p.photo}">`:'<div style="height:160px;background:#f9fafb;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:3rem;">📦</div>'}<input value="${p.name}" data-id="${p.firebaseId}" data-field="name" style="width:100%;margin:.3rem 0;"><input value="${p.desc}" data-id="${p.firebaseId}" data-field="desc" style="width:100%;margin:.3rem 0;"><input value="${p.price}" data-id="${p.firebaseId}" data-field="price" type="number" style="width:100%;margin:.3rem 0;"><div class="photo-upload"><label>Фото:</label><input type="file" accept="image/*" data-id="${p.firebaseId}" class="photo-input"></div><button class="delete-btn" data-id="${p.firebaseId}">Удалить</button></div>`).join('');
-    g.querySelectorAll('input:not([type=file])').forEach(i=>i.addEventListener('change',async()=>{ try{ await updateDoc(doc(db,'products',i.dataset.id),{[i.dataset.field]:i.dataset.field==='price'?parseInt(i.value)||0:i.value}); }catch(e){ console.error(e); } }));
-    g.querySelectorAll('.photo-input').forEach(i=>i.addEventListener('change',async function(){ const f=this.files[0]; if(f){ const r=new FileReader(); r.onload=async e=>{ try{ await updateDoc(doc(db,'products',this.dataset.id),{photo:e.target.result}); renderOwnerProducts(); }catch(err){ console.error(err); } }; r.readAsDataURL(f); } }));
-    g.querySelectorAll('.delete-btn').forEach(b=>b.addEventListener('click',async()=>{ if(confirm('Удалить?')){ try{ await deleteDoc(doc(db,'products',b.dataset.id)); renderOwnerProducts(); }catch(e){ console.error(e); } } }));
+    grid.innerHTML = products.map(p => `
+      <div class="owner-card">
+        ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : '<div style="height:160px;background:#f9fafb;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:3rem;">📦</div>'}
+        <input value="${p.name}" data-id="${p.firebaseId}" data-field="name" style="width:100%;margin:0.3rem 0;">
+        <input value="${p.desc}" data-id="${p.firebaseId}" data-field="desc" style="width:100%;margin:0.3rem 0;">
+        <input value="${p.price}" data-id="${p.firebaseId}" data-field="price" type="number" style="width:100%;margin:0.3rem 0;">
+        <div class="photo-upload"><label>Фото:</label><input type="file" accept="image/*" data-id="${p.firebaseId}" class="photo-input"></div>
+        <button class="delete-btn" data-id="${p.firebaseId}">Удалить</button>
+      </div>`).join('');
+    grid.querySelectorAll('input:not([type=file])').forEach(inp => inp.addEventListener('change', async () => {
+      const val = inp.dataset.field === 'price' ? (parseInt(inp.value)||0) : inp.value;
+      try { await updateDoc(doc(db, 'products', inp.dataset.id), { [inp.dataset.field]: val }); } catch(e) { console.error(e); }
+    }));
+    grid.querySelectorAll('.photo-input').forEach(inp => inp.addEventListener('change', async function() {
+      const file = this.files[0];
+      if (file) { const r = new FileReader(); r.onload = async e => { try { await updateDoc(doc(db, 'products', this.dataset.id), { photo: e.target.result }); renderOwnerProducts(); } catch(err) { console.error(err); } }; r.readAsDataURL(file); }
+    }));
+    grid.querySelectorAll('.delete-btn').forEach(b => b.addEventListener('click', async () => {
+      if (confirm('Удалить товар?')) { try { await deleteDoc(doc(db, 'products', b.dataset.id)); renderOwnerProducts(); } catch(e) { console.error(e); } }
+    }));
   }
 
-  async function renderClients(){ const d=document.getElementById('clients-container'); try{ const s=await getDocs(collection(db,'users')); const c=[]; s.forEach(doc=>{ const dt=doc.data(); if(dt.role!=='owner') c.push(dt); }); d.innerHTML=c.length?'<div class="client-row" style="font-weight:600;"><span>Имя</span><span>Email</span><span>Телефон</span></div>'+c.map(c=>`<div class="client-row"><span>${c.name}</span><span>${c.email}</span><span>${c.phone||'-'}</span></div>`).join(''):'<p>Нет клиентов</p>'; }catch(e){ console.error(e); } }
-  async function renderAllOrders(){ const d=document.getElementById('all-orders-list'); try{ const q=query(collection(db,'orders'),orderBy('createdAt','desc')); const s=await getDocs(q); const o=[]; s.forEach(doc=>o.push({id:doc.id,...doc.data()})); d.innerHTML=o.length?o.map(o=>`<div class="order-card"><div class="order-header"><div><strong>${o.customerName}</strong><div class="order-date">${new Date(o.createdAt).toLocaleString('ru-RU')}</div><div style="font-size:.85rem;">📧 ${o.customerEmail}</div></div><span class="order-status">${o.status}</span></div><div class="order-items">${o.items.map(i=>`<div class="order-item"><span>${i.name}</span><span>${i.price}₽</span></div>`).join('')}</div><div class="order-total">Итого: ${o.total}₽</div></div>`).join(''):'<p style="text-align:center;padding:2rem;">Заказов нет</p>'; }catch(e){ console.error(e); } }
+  async function renderClients() {
+    const div = document.getElementById('clients-container');
+    try {
+      const snapshot = await getDocs(collection(db, 'users'));
+      const clients = [];
+      snapshot.forEach(doc => { const d = doc.data(); if (d.role !== 'owner') clients.push(d); });
+      div.innerHTML = clients.length ? '<div class="client-row" style="font-weight:600;"><span>Имя</span><span>Email</span><span>Телефон</span></div>' + clients.map(c => `<div class="client-row"><span>${c.name}</span><span>${c.email}</span><span>${c.phone||'-'}</span></div>`).join('') : '<p>Нет клиентов</p>';
+    } catch(e) { console.error(e); }
+  }
 
-  document.querySelectorAll('.owner-tab-btn').forEach(b=>b.addEventListener('click',function(){
-    document.querySelectorAll('.owner-tab-btn').forEach(x=>x.classList.remove('active')); this.classList.add('active');
-    ['products','add','orders','clients','about'].forEach(t=>document.getElementById('owner-'+t+'-tab').style.display='none');
-    document.getElementById('owner-'+this.dataset.ownerTab+'-tab').style.display='block';
-    if(this.dataset.ownerTab==='products') renderOwnerProducts();
-    if(this.dataset.ownerTab==='orders') renderAllOrders();
-    if(this.dataset.ownerTab==='clients') renderClients();
-    if(this.dataset.ownerTab==='about'){ document.getElementById('about-edit-title').value=aboutData.title; document.getElementById('about-edit-desc').value=aboutData.desc; }
+  async function renderAllOrders() {
+    const div = document.getElementById('all-orders-list');
+    try {
+      const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+      const snapshot = await getDocs(q);
+      const orders = [];
+      snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+      div.innerHTML = orders.length === 0 ? '<p style="text-align:center;padding:2rem;">Заказов пока нет</p>' : orders.map(order => `
+        <div class="order-card">
+          <div class="order-header"><div><strong>${order.customerName}</strong><div class="order-date">${new Date(order.createdAt).toLocaleString('ru-RU')}</div><div style="font-size:0.85rem;">📧 ${order.customerEmail}</div></div><span class="order-status">${order.status}</span></div>
+          <div class="order-items">${order.items.map(item => `<div class="order-item"><span>${item.name}</span><span>${item.price} ₽</span></div>`).join('')}</div>
+          <div class="order-total">Итого: ${order.total} ₽</div>
+        </div>`).join('');
+    } catch(e) { console.error(e); }
+  }
+
+  document.querySelectorAll('.owner-tab-btn').forEach(b => b.addEventListener('click', function() {
+    document.querySelectorAll('.owner-tab-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+    ['products','add','orders','clients','about'].forEach(t => document.getElementById('owner-'+t+'-tab').style.display = 'none');
+    document.getElementById('owner-'+this.dataset.ownerTab+'-tab').style.display = 'block';
+    if (this.dataset.ownerTab === 'products') renderOwnerProducts();
+    if (this.dataset.ownerTab === 'orders') renderAllOrders();
+    if (this.dataset.ownerTab === 'clients') renderClients();
+    if (this.dataset.ownerTab === 'about') { document.getElementById('about-edit-title').value = aboutData.title; document.getElementById('about-edit-desc').value = aboutData.desc; }
   }));
 
-  document.getElementById('owner-add-btn').addEventListener('click',async()=>{
-    const n=document.getElementById('owner-new-name').value.trim(); if(!n){ alert('Введите название'); return; }
-    try{ await addDoc(collection(db,'products'),{ id:Math.max(0,...products.map(p=>p.id||0))+1, name:n, category:document.getElementById('owner-new-category').value, price:parseInt(document.getElementById('owner-new-price').value)||0, opt:'от '+Math.round((parseInt(document.getElementById('owner-new-price').value)||0)*0.8)+' ₽', desc:document.getElementById('owner-new-desc').value.trim(), photo:'' }); renderOwnerProducts(); }catch(e){ console.error(e); }
-  });
-  document.getElementById('save-about-btn').addEventListener('click',async()=>{
-    aboutData.title=document.getElementById('about-edit-title').value; aboutData.desc=document.getElementById('about-edit-desc').value;
-    try{ await setDoc(doc(db,'settings','about'),aboutData); applyAbout(); alert('Сохранено!'); }catch(e){ console.error(e); }
-  });
-  document.getElementById('about-photo-input').addEventListener('change',async function(){
-    const f=this.files[0]; if(f){ const r=new FileReader(); r.onload=async e=>{ aboutData.photo=e.target.result; try{ await setDoc(doc(db,'settings','about'),aboutData); applyAbout(); }catch(err){ console.error(err); } }; r.readAsDataURL(f); }
+  document.getElementById('owner-add-btn').addEventListener('click', async () => {
+    const name = document.getElementById('owner-new-name').value.trim();
+    if (!name) { alert('Введите название'); return; }
+    const product = { id: Math.max(0,...products.map(p=>p.id||0))+1, name, category: document.getElementById('owner-new-category').value, price: parseInt(document.getElementById('owner-new-price').value)||0, opt: 'от '+Math.round((parseInt(document.getElementById('owner-new-price').value)||0)*0.8)+' ₽', desc: document.getElementById('owner-new-desc').value.trim(), photo: '' };
+    try { await addDoc(collection(db, 'products'), product); document.getElementById('owner-new-name').value=''; document.getElementById('owner-new-price').value=''; document.getElementById('owner-new-desc').value=''; renderOwnerProducts(); } catch(e) { console.error(e); }
   });
 
-  document.getElementById('privacy-link').addEventListener('click',(e)=>{ e.preventDefault(); showPrivacy(); });
-  document.getElementById('back-from-privacy').addEventListener('click',showMain);
-  document.getElementById('logo-link').addEventListener('click',(e)=>{ e.preventDefault(); showMain(); });
+  document.getElementById('save-about-btn').addEventListener('click', async () => {
+    aboutData.title = document.getElementById('about-edit-title').value;
+    aboutData.desc = document.getElementById('about-edit-desc').value;
+    try { await setDoc(doc(db, 'settings', 'about'), aboutData); applyAboutData(); alert('Сохранено!'); } catch(e) { console.error(e); }
+  });
 
-  loadProducts(); loadAboutData(); updateCart(); updateUI();
+  document.getElementById('about-photo-input').addEventListener('change', async function() {
+    const file = this.files[0];
+    if (file) { const r = new FileReader(); r.onload = async e => { aboutData.photo = e.target.result; try { await setDoc(doc(db, 'settings', 'about'), aboutData); applyAboutData(); } catch(err) { console.error(err); } }; r.readAsDataURL(file); }
+  });
+
+  // Политика конфиденциальности
+  document.getElementById('privacy-link').addEventListener('click', (e) => { e.preventDefault(); showPrivacyPage(); });
+  document.getElementById('back-from-privacy').addEventListener('click', showMainSite);
+  document.getElementById('logo-link').addEventListener('click', (e) => { e.preventDefault(); showMainSite(); });
+
+  loadProducts();
+  loadAboutData();
+  updateCart();
+  updateUI();
 </script>
 </body>
 </html>
